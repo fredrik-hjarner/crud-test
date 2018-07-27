@@ -18,13 +18,9 @@ func routesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// Simplest transform function: put all the data files into the base dir.
-	// flatTransform := func(s string) []string { return []string{} }
-
 	// Initialize a new diskv store, rooted at "my-data-dir", with a 1MB cache.
 	d := diskv.New(diskv.Options{
-		BasePath: "my-data-dir",
-		// Transform:    flatTransform,
+		BasePath:     "my-data-dir",
 		CacheSizeMax: 1024 * 1024,
 	})
 
