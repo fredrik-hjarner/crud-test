@@ -45,6 +45,12 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func delHandler(w http.ResponseWriter, r *http.Request) {
-	// body := r.Body
-	fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+	query := r.URL.Query()
+	id := query.Get("id")
+	if id == "" {
+		fmt.Fprintf(w, "Error: id is required.")
+	} else {
+		fmt.Fprintf(w, "Trying to delete id=%s", id)
+		d.Erase(id)
+	}
 }

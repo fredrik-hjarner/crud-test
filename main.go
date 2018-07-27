@@ -17,13 +17,13 @@ func routesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
-	// Initialize a new diskv store, rooted at "my-data-dir", with a 1MB cache.
-	d := diskv.New(diskv.Options{
-		BasePath:     "my-data-dir",
-		CacheSizeMax: 1024 * 1024,
-	})
+// Initialize a new diskv store, rooted at "my-data-dir", with a 1MB cache.
+var d = diskv.New(diskv.Options{
+	BasePath:     "my-data-dir",
+	CacheSizeMax: 1024 * 1024,
+})
 
+func main() {
 	// Write three bytes to the key "alpha".
 	key := "alpha"
 	d.Write(key, []byte{'1', '2', '3'})
