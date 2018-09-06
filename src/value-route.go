@@ -28,8 +28,13 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	key := query.Get("key")
 	log.Printf("key=%s", key)
 
-	value, _ := d.Read(key)
-	fmt.Fprintf(w, "%s", value)
+	value, err := d.Read(key)
+	// if error
+	if err != nil {
+		fmt.Fprintf(w, "'%s' does not exist", key)
+	} else {
+		fmt.Fprintf(w, "%s", value)
+	}
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
