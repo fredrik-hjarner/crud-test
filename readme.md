@@ -2,6 +2,7 @@
 
 ## Compile
 
+`go get github.com/peterbourgon/diskv`
 `cd src; go build -o '../ztorage.exe'; cd ..`
 
 ## Run
