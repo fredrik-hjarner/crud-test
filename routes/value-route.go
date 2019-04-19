@@ -26,10 +26,10 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	key := query.Get("key")
 	log.Printf("key=%s", key)
 
-	value, err := diskv.Diskv.Read(key)
+	value := diskv.Diskv.ReadString(key)
 	// if error
-	if err != nil {
-		fmt.Fprintf(w, "'%s' does not exist", key)
+	if value == "" {
+		fmt.Fprintf(w, "'%s' does not exist or value was an empty string", key)
 	} else {
 		fmt.Fprintf(w, "%s", value)
 	}

@@ -1,3 +1,9 @@
+GET http://localhost:8080/
+
+###
+GET http://localhost:8080/keys
+
+###
 GET http://localhost:8080/value?key=alpha%2Fbeta
 
 ###

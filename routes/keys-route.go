@@ -1,9 +1,11 @@
 package routes
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
+
+	"github.com/fredrik-hjarner/ztorage/utils"
 )
 
 // value path
@@ -23,14 +25,8 @@ func keysRoute(w http.ResponseWriter, r *http.Request) {
  *
  */
 func keysGet(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-	id := query.Get("id") // TODO: this is wrong.
-	log.Printf("value=%s", id)
-	if id == "" {
-		// return all key-value pairs.
-		fmt.Fprintf(w, "Requested all values")
-	} else {
-		// return only the value of `id`.
-		fmt.Fprintf(w, "Requested one value")
-	}
+	// return all key-value pairs.
+	slice := utils.ListKeys()
+	jsonString, _ := json.Marshal(slice)
+	fmt.Fprintf(w, "%s", jsonString)
 }
