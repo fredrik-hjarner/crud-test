@@ -1,9 +1,6 @@
-* Try to call my api endpoints.
-
 * I should make a client web app, that can
     see, add, remove and edit values.
     
     Very useful for debugging.
 
-* I have no idea how I can split a project into subfolders in GOLANG.
-    It seems to be tricky as hell.
+* implement DELETE.

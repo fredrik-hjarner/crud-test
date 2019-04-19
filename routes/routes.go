@@ -1,13 +1,15 @@
 package routes
 
 import (
-	"fmt" // format
+	"fmt"
 	"net/http"
 )
 
 func Routes(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	switch path {
+	case "/":
+		rootRoute(w, r)
 	case "/keys":
 		keysRoute(w, r)
 	case "/value":

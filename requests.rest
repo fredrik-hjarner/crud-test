@@ -1,0 +1,9 @@
+GET http://localhost:8080/value?key=alpha%2Fbeta
+
+###
+
+GET http://localhost:8080/value?key=alpha%2Ffuck
+
+###
+
+POST http://localhost:8080/value?key=alpha%2Ffuck&value=yes

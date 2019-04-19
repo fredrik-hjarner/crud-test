@@ -3,11 +3,12 @@
 ## Compile
 
 `go get github.com/peterbourgon/diskv`
-`cd src; go build -o '../ztorage.exe'; cd ..`
+`cd C:/code/go/src/github.com/fredrik-hjarner/ztorage/ztorage`
+`go install`
 
 ## Run
 
-`.\ztorage.exe`
+`C:/code/go/bin/ztorage.exe`
 
 ## Use
 
