@@ -4,3 +4,5 @@
     Very useful for debugging.
 
 * implement DELETE.
+
+* create "data-dir" if it does not exist.

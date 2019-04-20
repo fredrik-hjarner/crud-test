@@ -7,6 +7,16 @@ import (
 	"strings"
 )
 
+func Filter(vs []string, f func(string) bool) []string {
+	vsf := make([]string, 0)
+	for _, v := range vs {
+		if f(v) {
+			vsf = append(vsf, v)
+		}
+	}
+	return vsf
+}
+
 func ListKeys() []string {
 	var slice []string
 
@@ -27,4 +37,10 @@ func ListKeys() []string {
 		log.Println(err)
 	}
 	return slice
+}
+
+func ListKeysWithPrefix(prefix string) []string {
+	return Filter(ListKeys(), func(v string) bool {
+		return strings.HasPrefix(v, prefix)
+	})
 }
