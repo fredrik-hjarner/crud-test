@@ -18,6 +18,7 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 	// if error
 	if value == "" {
 		w.WriteHeader(http.StatusNotFound)
+		r.Body.Close()
 	} else {
 		fmt.Fprintf(w, "%s", value)
 	}
