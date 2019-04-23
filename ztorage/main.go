@@ -8,18 +8,36 @@ import (
 )
 
 func main() {
-	r := mux.NewRouter()
+	router := mux.NewRouter()
 
-	// keys
-	r.HandleFunc("/keys", routes.KeysGet).Methods("GET")
+	//////////
+	// keys //
+	//////////
 
-	// value
-	r.HandleFunc("/value", routes.GetHandler).Methods("GET")
-	r.HandleFunc("/value", routes.PostHandler).Methods("POST")
-	r.HandleFunc("/value", routes.DelHandler).Methods("DELETE")
+	router.HandleFunc("/keys", routes.KeysGet).Methods("GET")
 
-	// route
-	r.HandleFunc("/", routes.RootGet).Methods("GET")
+	///////////
+	// value //
+	///////////
 
-	http.ListenAndServe(":8080", r)
+	router.HandleFunc("/value", routes.GetHandler).
+		Methods("GET")
+
+	router.HandleFunc("/value", routes.PostHandler).
+		Methods("POST")
+
+	router.HandleFunc("/value", routes.DeleteOneValue).
+		Methods("DELETE").
+		Queries("key", "{key}")
+
+	router.HandleFunc("/value", routes.DeleteAllValues).
+		Methods("DELETE")
+
+	//////////
+	// root //
+	//////////
+
+	router.HandleFunc("/", routes.RootGet).Methods("GET")
+
+	http.ListenAndServe(":8080", router)
 }

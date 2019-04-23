@@ -1,15 +1,15 @@
 GET http://localhost:8080/
-
 ###
 GET http://localhost:8080/keys
-
 ###
 GET http://localhost:8080/value?key=alpha%2Fbeta
-
 ###
-
 GET http://localhost:8080/value?key=alpha%2Ffuck
-
 ###
-
 POST http://localhost:8080/value?key=alpha%2Ffuck&value=yes
+###
+POST http://localhost:8080/value?key=alpha%2Ffack&value=no
+###
+DELETE http://localhost:8080/value
+###
+DELETE http://localhost:8080/value?key=alpha%2Ffuck

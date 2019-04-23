@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/fredrik-hjarner/ztorage/diskv"
 )
@@ -35,13 +36,13 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DelHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteOneValue(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
-	if key == "" {
-		fmt.Fprintf(w, "Error: key is required.")
-	} else {
-		fmt.Fprintf(w, "Trying to delete key=%s", key)
-		diskv.Diskv.Erase(key)
-	}
+	diskv.Diskv.Erase(key)
+}
+
+func DeleteAllValues(w http.ResponseWriter, r *http.Request) {
+	diskv.Diskv.EraseAll()
+	os.Mkdir("data-dir", 0777) // EraseAll deletes folder??
 }
