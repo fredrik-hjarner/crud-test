@@ -17,7 +17,7 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 	value := diskv.Diskv.ReadString(key)
 	// if error
 	if value == "" {
-		fmt.Fprintf(w, "'%s' does not exist or value was an empty string", key)
+		w.WriteHeader(http.StatusNotFound)
 	} else {
 		fmt.Fprintf(w, "%s", value)
 	}
