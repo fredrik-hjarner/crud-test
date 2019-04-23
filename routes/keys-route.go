@@ -9,23 +9,11 @@ import (
 	"github.com/fredrik-hjarner/ztorage/utils"
 )
 
-// value path
-
-func keysRoute(w http.ResponseWriter, r *http.Request) {
-	method := r.Method
-	if method == "GET" { // TODO: replace with switch.
-		keysGet(w, r)
-	} else {
-		// return only the value of `id`.
-		fmt.Fprintf(w, "'%s' not allowed on /keys", method)
-	}
-}
-
 /*
  * TODO: This should return all keys (i.e. folders) in alphabethical order.
  *
  */
-func keysGet(w http.ResponseWriter, r *http.Request) {
+func KeysGet(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	prefix := query.Get("prefix")
 

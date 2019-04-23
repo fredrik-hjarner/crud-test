@@ -4,13 +4,22 @@ import (
 	"net/http"
 
 	"github.com/fredrik-hjarner/ztorage/routes"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	// Erase the key+value from the store (and the disk).
-	// d.Erase(key)
+	r := mux.NewRouter()
 
-	http.HandleFunc("/", routes.Routes)
+	// keys
+	r.HandleFunc("/keys", routes.KeysGet).Methods("GET")
 
-	http.ListenAndServe(":8080", nil)
+	// value
+	r.HandleFunc("/value", routes.GetHandler).Methods("GET")
+	r.HandleFunc("/value", routes.PostHandler).Methods("POST")
+	r.HandleFunc("/value", routes.DelHandler).Methods("DELETE")
+
+	// route
+	r.HandleFunc("/", routes.RootGet).Methods("GET")
+
+	http.ListenAndServe(":8080", r)
 }

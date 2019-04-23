@@ -8,20 +8,7 @@ import (
 	"github.com/fredrik-hjarner/ztorage/diskv"
 )
 
-// value path
-
-func valueRoute(w http.ResponseWriter, r *http.Request) {
-	method := r.Method
-	if method == "GET" { // TODO: replace with switch.
-		getHandler(w, r)
-	} else if method == "POST" {
-		postHandler(w, r)
-	} else if method == "DEL" {
-		postHandler(w, r)
-	}
-}
-
-func getHandler(w http.ResponseWriter, r *http.Request) {
+func GetHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
 	log.Printf("key=%s", key)
@@ -35,7 +22,7 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
+func PostHandler(w http.ResponseWriter, r *http.Request) {
 	// body := r.Body
 	query := r.URL.Query()
 	key := query.Get("key")
@@ -48,7 +35,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func delHandler(w http.ResponseWriter, r *http.Request) {
+func DelHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
 	if key == "" {
