@@ -32,7 +32,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	if key == "" || value == "" {
 		fmt.Fprintf(w, "Error: key and value is required.")
 	} else {
-		fmt.Fprintf(w, "Trying to store { %s: %s }", key, value)
+		fmt.Fprintf(w, "Trying to store %s=\"%s\" }", key, value)
 		diskv.Diskv.WriteString(key, value)
 	}
 }
