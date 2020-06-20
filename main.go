@@ -46,5 +46,5 @@ func main() {
 
 	router.HandleFunc("/", routes.RootGet).Methods("GET")
 
-	http.ListenAndServe(":8080", handlers.CORS(originsOk, headersOk, methodsOk)(router))
+	http.ListenAndServe(":9000", handlers.CORS(originsOk, headersOk, methodsOk)(router))
 }
