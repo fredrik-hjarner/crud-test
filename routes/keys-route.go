@@ -9,35 +9,42 @@ import (
 	"github.com/fredrik-hjarner/ztorage/utils"
 )
 
-// value path
-
-func keysRoute(w http.ResponseWriter, r *http.Request) {
-	method := r.Method
-	if method == "GET" { // TODO: replace with switch.
-		keysGet(w, r)
-	} else {
-		// return only the value of `id`.
-		fmt.Fprintf(w, "'%s' not allowed on /keys", method)
-	}
-}
-
 /*
  * TODO: This should return all keys (i.e. folders) in alphabethical order.
  *
  */
-func keysGet(w http.ResponseWriter, r *http.Request) {
+func KeysGet(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	prefix := query.Get("prefix")
 
 	if prefix != "" {
 		log.Printf("prefix=%s", prefix)
 		slice := utils.ListKeysWithPrefix(prefix)
-		jsonString, _ := json.Marshal(slice)
-		fmt.Fprintf(w, "%s", jsonString)
+		log.Println(slice)
+		jsonString, err := json.Marshal(slice)
+		if err != nil {
+			log.Fatal("Cannot encode to JSON ", err)
+		}
+
+		// for some damn reason [] is serialized as "null" and not "[]".
+		if len(slice) == 0 {
+			fmt.Fprintf(w, "%s", "[]")
+		} else {
+			fmt.Fprintf(w, "%s", jsonString)
+		}
 	} else {
 		// return all key-value pairs.
 		slice := utils.ListKeys()
-		jsonString, _ := json.Marshal(slice)
-		fmt.Fprintf(w, "%s", jsonString)
+		jsonString, err := json.Marshal(slice)
+		if err != nil {
+			log.Fatal("Cannot encode to JSON ", err)
+		}
+
+		// for some damn reason [] is serialized as "null" and not "[]".
+		if len(slice) == 0 {
+			fmt.Fprintf(w, "%s", "[]")
+		} else {
+			fmt.Fprintf(w, "%s", jsonString)
+		}
 	}
 }

@@ -4,24 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/fredrik-hjarner/ztorage/diskv"
 )
 
-// value path
-
-func valueRoute(w http.ResponseWriter, r *http.Request) {
-	method := r.Method
-	if method == "GET" { // TODO: replace with switch.
-		getHandler(w, r)
-	} else if method == "POST" {
-		postHandler(w, r)
-	} else if method == "DEL" {
-		postHandler(w, r)
-	}
-}
-
-func getHandler(w http.ResponseWriter, r *http.Request) {
+func GetHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
 	log.Printf("key=%s", key)
@@ -29,13 +17,14 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	value := diskv.Diskv.ReadString(key)
 	// if error
 	if value == "" {
-		fmt.Fprintf(w, "'%s' does not exist or value was an empty string", key)
+		w.WriteHeader(http.StatusNotFound)
+		r.Body.Close()
 	} else {
 		fmt.Fprintf(w, "%s", value)
 	}
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
+func PostHandler(w http.ResponseWriter, r *http.Request) {
 	// body := r.Body
 	query := r.URL.Query()
 	key := query.Get("key")
@@ -43,18 +32,18 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	if key == "" || value == "" {
 		fmt.Fprintf(w, "Error: key and value is required.")
 	} else {
-		fmt.Fprintf(w, "Trying to store { %s: %s }", key, value)
+		fmt.Fprintf(w, "Trying to store %s=\"%s\" }", key, value)
 		diskv.Diskv.WriteString(key, value)
 	}
 }
 
-func delHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteOneValue(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
-	if key == "" {
-		fmt.Fprintf(w, "Error: key is required.")
-	} else {
-		fmt.Fprintf(w, "Trying to delete key=%s", key)
-		diskv.Diskv.Erase(key)
-	}
+	diskv.Diskv.Erase(key)
+}
+
+func DeleteAllValues(w http.ResponseWriter, r *http.Request) {
+	diskv.Diskv.EraseAll()
+	os.Mkdir("data-dir", 0777) // EraseAll deletes folder??
 }
