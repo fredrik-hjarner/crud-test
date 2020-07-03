@@ -7,10 +7,6 @@ import (
 	"net/http"
 )
 
-/*
- * TODO: This should return all keys (i.e. folders) in alphabethical order.
- *
- */
 func RootGet(w http.ResponseWriter, r *http.Request) {
 	// Return documentation of API.
 	t, err := template.ParseFiles("templates/root.html")
