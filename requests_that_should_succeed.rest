@@ -2,6 +2,10 @@ GET http://localhost:9000/
 ###
 GET http://localhost:9000/keys
 ###
+GET http://localhost:9000/keys?prefix=alpha
+###
+GET http://localhost:9000/keys?prefix=alphaz
+###
 GET http://localhost:9000/value?key=alpha%2Fbeta
 ###
 GET http://localhost:9000/value?key=alpha%2Ffuck
