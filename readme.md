@@ -15,3 +15,7 @@
 `http://localhost:8080/value?key=alpha%2Fbeta`
 
 to read the value of 'alpha/beta'
+
+## Test
+
+`go test ./.. -v`

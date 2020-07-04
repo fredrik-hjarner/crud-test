@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func CreateRouter() *mux.Router {
+func CreateHttpHandler() http.Handler {
 	enableCORS := func(router http.Handler) http.Handler {
 		headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 		originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
@@ -55,7 +55,5 @@ func CreateRouter() *mux.Router {
 
 	router.HandleFunc("/", RootGet).Methods("GET")
 
-	http.ListenAndServe(":9000", enableCORS(router))
-
-	return router
+	return enableCORS(router)
 }
