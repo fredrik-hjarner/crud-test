@@ -29,15 +29,17 @@ func main() {
 	// value //
 	///////////
 
-	router.HandleFunc("/value", routes.GetHandler).
-		Methods("GET")
+	router.HandleFunc("/value", routes.GetValueByKey).
+		Methods("GET").
+		Queries("key", "{key:.+}")
 
-	router.HandleFunc("/value", routes.PostHandler).
-		Methods("POST")
+	router.HandleFunc("/value", routes.SetValue).
+		Methods("POST").
+		Queries("key", "{key:.+}", "value", "{value:.+}")
 
 	router.HandleFunc("/value", routes.DeleteOneValue).
 		Methods("DELETE").
-		Queries("key", "{key}")
+		Queries("key", "{key:.+}")
 
 	router.HandleFunc("/value", routes.DeleteAllValues).
 		Methods("DELETE")
