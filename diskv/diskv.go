@@ -25,7 +25,7 @@ func keyInverseTransform(pathKey *diskv.PathKey) (key string) {
 	return strings.Join(pathKey.Path, "/") + pathKey.FileName[:len(pathKey.FileName)]
 }
 
-// Diskv Initialize a new diskv store, rooted at "my-data-dir", with a 1MB cache.
+// Diskv Initialize a new diskv store, rooted at "data-dir", with a 1MB cache.
 var Diskv = diskv.New(diskv.Options{
 	BasePath:          "data-dir",
 	AdvancedTransform: keyTransform,
