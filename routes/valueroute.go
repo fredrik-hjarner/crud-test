@@ -2,7 +2,6 @@ package routes
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
@@ -12,13 +11,19 @@ import (
 func GetValueByKey(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	key := query.Get("key")
-	log.Printf("key=%s", key)
+	// log.Printf("key=%s", key)
 
 	value := diskv.Diskv.ReadString(key)
 	// if error
 	if value == "" {
 		w.WriteHeader(http.StatusNotFound)
-		r.Body.Close()
+		if r.Body != nil {
+			/*
+			 *httptest.ResponseRecorder has no Body for some reason...
+			 so tests fail without this if.
+			*/
+			r.Body.Close()
+		}
 	} else {
 		fmt.Fprintf(w, "%s", value)
 	}

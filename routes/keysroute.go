@@ -18,7 +18,7 @@ func KeysGet(w http.ResponseWriter, r *http.Request) {
 	prefix := query.Get("prefix")
 	var slice []string
 
-	log.Printf("prefix=%s", prefix)
+	// log.Printf("prefix=%s", prefix)
 
 	if prefix != "" {
 		slice = utils.ListKeysWithPrefix(prefix)
@@ -27,7 +27,7 @@ func KeysGet(w http.ResponseWriter, r *http.Request) {
 		slice = utils.ListKeys()
 	}
 
-	log.Println(slice)
+	// log.Println(slice)
 	jsonString, err := json.Marshal(slice)
 	if err != nil {
 		log.Fatal("Cannot encode to JSON ", err)
