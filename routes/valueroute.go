@@ -10,10 +10,10 @@ import (
 
 func GetValueByKey(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	namespace := query.Get("namespace")
 	key := query.Get("key")
-	// log.Printf("key=%s", key)
 
-	value := diskv.Diskv.ReadString(key)
+	value := diskv.Diskv.ReadString(fmt.Sprintf("%v/%v", namespace, key))
 	// if error
 	if value == "" {
 		w.WriteHeader(http.StatusNotFound)
@@ -32,15 +32,17 @@ func GetValueByKey(w http.ResponseWriter, r *http.Request) {
 func SetValue(w http.ResponseWriter, r *http.Request) {
 	// body := r.Body
 	query := r.URL.Query()
+	namespace := query.Get("namespace")
 	key := query.Get("key")
 	value := query.Get("value")
-	diskv.Diskv.WriteString(key, value)
+	diskv.Diskv.WriteString(fmt.Sprintf("%v/%v", namespace, key), value)
 }
 
 func DeleteOneValue(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	namespace := query.Get("namespace")
 	key := query.Get("key")
-	diskv.Diskv.Erase(key)
+	diskv.Diskv.Erase(fmt.Sprintf("%v/%v", namespace, key))
 }
 
 func DeleteAllValues(w http.ResponseWriter, r *http.Request) {

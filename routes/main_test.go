@@ -12,7 +12,7 @@ var HTTPHandler http.Handler
 
 func TestMain(m *testing.M) {
 	diskv.Diskv.EraseAll()
-	HTTPHandler = CreateHttpHandler()
+	HTTPHandler = CreateHTTPHandler()
 	code := m.Run()
 	os.Exit(code)
 }

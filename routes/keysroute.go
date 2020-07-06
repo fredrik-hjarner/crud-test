@@ -15,16 +15,15 @@ import (
  */
 func KeysGet(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	namespace := query.Get("namespace")
 	prefix := query.Get("prefix")
 	var slice []string
 
-	// log.Printf("prefix=%s", prefix)
-
 	if prefix != "" {
-		slice = utils.ListKeysWithPrefix(prefix)
+		slice = utils.ListKeysWithPrefix(namespace, prefix)
 	} else {
 		// return all key-value pairs.
-		slice = utils.ListKeys()
+		slice = utils.ListKeys(namespace)
 	}
 
 	// log.Println(slice)

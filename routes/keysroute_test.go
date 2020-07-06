@@ -13,15 +13,15 @@ import (
 	Helper functions
 */
 
-func SendGetKeys() *httptest.ResponseRecorder {
-	request, _ := http.NewRequest("GET", "/keys", nil)
+func SendGetKeys(namespace string) *httptest.ResponseRecorder {
+	request, _ := http.NewRequest("GET", fmt.Sprintf("/keys?namespace=%v", namespace), nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	return response
 }
 
-func SendGetPrefixedKeys(prefix string) *httptest.ResponseRecorder {
-	request, _ := http.NewRequest("GET", fmt.Sprintf("/keys?prefix=%v", prefix), nil)
+func SendGetPrefixedKeys(namespace string, prefix string) *httptest.ResponseRecorder {
+	request, _ := http.NewRequest("GET", fmt.Sprintf("/keys?namespace=%v&prefix=%v", namespace, prefix), nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	return response
@@ -34,32 +34,44 @@ func SendGetPrefixedKeys(prefix string) *httptest.ResponseRecorder {
 func TestEmptyKeysRoute(t *testing.T) {
 	SetupFixture()
 
-	response := SendGetKeys()
+	response := SendGetKeys("app")
 	AssertResponseCode(t, http.StatusOK, response.Code)
 	require.EqualValues(t, "[]", response.Body.String())
 }
 
 func TestAddKeyAndSeeIfItExists(t *testing.T) {
 	SetupFixture()
-	SendSetValue("somekey", "somevalue")
-
-	response := SendGetKeys()
-	AssertResponseCode(t, http.StatusOK, response.Code)
-	require.EqualValues(t, `["somekey"]`, response.Body.String())
-}
-
-func TestGetPrefixedKeys(t *testing.T) {
-	SetupFixture()
-	SendSetValue("somekey", "somevalue")
-	SendSetValue("anotherkey", "anothervalue")
+	SendSetValue("app", "somekey", "somevalue")
 
 	{
-		response := SendGetPrefixedKeys("some")
+		response := SendGetKeys("app")
 		AssertResponseCode(t, http.StatusOK, response.Code)
 		require.EqualValues(t, `["somekey"]`, response.Body.String())
 	}
 	{
-		response := SendGetPrefixedKeys("another")
+		response := SendGetKeys("someotherapp")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, `[]`, response.Body.String())
+	}
+}
+
+func TestGetPrefixedKeys(t *testing.T) {
+	SetupFixture()
+	SendSetValue("app", "somekey", "somevalue")
+	SendSetValue("app", "anotherkey", "anothervalue")
+
+	{
+		response := SendGetPrefixedKeys("someotherapp", "some")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, `[]`, response.Body.String())
+	}
+	{
+		response := SendGetPrefixedKeys("app", "some")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, `["somekey"]`, response.Body.String())
+	}
+	{
+		response := SendGetPrefixedKeys("app", "another")
 		AssertResponseCode(t, http.StatusOK, response.Code)
 		require.EqualValues(t, `["anotherkey"]`, response.Body.String())
 	}

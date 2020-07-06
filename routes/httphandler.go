@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func CreateHttpHandler() http.Handler {
+func CreateHTTPHandler() http.Handler {
 	enableCORS := func(router http.Handler) http.Handler {
 		headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 		originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
@@ -32,17 +32,17 @@ func CreateHttpHandler() http.Handler {
 
 	valueRouter.
 		Methods("GET").
-		Queries("key", "{key:.+}").
+		Queries("namespace", "{namespace:.+}", "key", "{key:.+}").
 		HandlerFunc(GetValueByKey)
 
 	valueRouter.
 		Methods("POST").
-		Queries("key", "{key:.+}", "value", "{value:.+}").
+		Queries("namespace", "{namespace:.+}", "key", "{key:.+}", "value", "{value:.+}").
 		HandlerFunc(SetValue)
 
 	valueRouter.
 		Methods("DELETE").
-		Queries("key", "{key:.+}").
+		Queries("namespace", "{namespace:.+}", "key", "{key:.+}").
 		HandlerFunc(DeleteOneValue)
 
 	valueRouter.

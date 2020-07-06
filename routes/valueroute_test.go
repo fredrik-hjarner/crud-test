@@ -13,22 +13,22 @@ import (
 	Helper functions
 */
 
-func SendGetValueByKey(key string) *httptest.ResponseRecorder {
-	request, _ := http.NewRequest("GET", fmt.Sprintf("/value?key=%v", key), nil)
+func SendGetValueByKey(namespace string, key string) *httptest.ResponseRecorder {
+	request, _ := http.NewRequest("GET", fmt.Sprintf("/value?namespace=%v&key=%v", namespace, key), nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	return response
 }
 
-func SendSetValue(key string, value string) *httptest.ResponseRecorder {
-	request, _ := http.NewRequest("POST", fmt.Sprintf("/value?key=%v&value=%v", key, value), nil)
+func SendSetValue(namespace string, key string, value string) *httptest.ResponseRecorder {
+	request, _ := http.NewRequest("POST", fmt.Sprintf("/value?namespace=%v&key=%v&value=%v", namespace, key, value), nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	return response
 }
 
-func SendDeleteOneValue(key string) *httptest.ResponseRecorder {
-	request, _ := http.NewRequest("DELETE", fmt.Sprintf("/value?key=%v", key), nil)
+func SendDeleteOneValue(namespace string, key string) *httptest.ResponseRecorder {
+	request, _ := http.NewRequest("DELETE", fmt.Sprintf("/value?namespace=%v&key=%v", namespace, key), nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	return response
@@ -48,51 +48,69 @@ func SendDeleteAllValues() *httptest.ResponseRecorder {
 func TestSetValue(t *testing.T) {
 	SetupFixture()
 
-	response := SendSetValue("somekey", "somevalue")
+	response := SendSetValue("app", "somekey", "somevalue")
 	AssertResponseCode(t, http.StatusOK, response.Code)
 }
 
 func TestGetNonexistingValue(t *testing.T) {
 	SetupFixture()
 
-	response := SendGetValueByKey("somekey")
+	response := SendGetValueByKey("app", "somekey")
 	AssertResponseCode(t, http.StatusNotFound, response.Code)
 }
 
 func TestGetExistingValue(t *testing.T) {
 	SetupFixture()
-	SendSetValue("somekey", "somevalue")
+	SendSetValue("app", "somekey", "somevalue")
 
-	response := SendGetValueByKey("somekey")
-	AssertResponseCode(t, http.StatusOK, response.Code)
-	require.EqualValues(t, "somevalue", response.Body.String())
+	{
+		response := SendGetValueByKey("app", "somekey")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, "somevalue", response.Body.String())
+	}
+	{
+		response := SendGetValueByKey("someotherapp", "somekey")
+		AssertResponseCode(t, http.StatusNotFound, response.Code)
+	}
 }
 
 func TestDeleteNonexistingValue(t *testing.T) {
 	SetupFixture()
 
-	response := SendDeleteOneValue("somekey")
+	response := SendDeleteOneValue("app", "somekey")
 	AssertResponseCode(t, http.StatusOK, response.Code)
 }
 
 func TestDeleteExistingValue(t *testing.T) {
 	SetupFixture()
-	SendSetValue("somekey", "somevalue")
+	SendSetValue("app", "somekey", "somevalue")
 
-	response := SendDeleteOneValue("somekey")
-	AssertResponseCode(t, http.StatusOK, response.Code)
+	{
+		response := SendGetKeys("app")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, `["somekey"]`, response.Body.String())
+	}
+	{
+		response := SendDeleteOneValue("app", "somekey")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+	}
+	{
+		response := SendGetKeys("app")
+		AssertResponseCode(t, http.StatusOK, response.Code)
+		require.EqualValues(t, `[]`, response.Body.String())
+	}
 }
 
 func TestDeleteAllValues(t *testing.T) {
 	SetupFixture()
-	SendSetValue("somekey", "somevalue")
+	SendSetValue("app", "somekey", "somevalue")
 
 	{
 		response := SendDeleteAllValues()
 		AssertResponseCode(t, http.StatusOK, response.Code)
 	}
 	{
-		response := SendGetKeys()
+		response := SendGetKeys("app")
 		AssertResponseCode(t, http.StatusOK, response.Code)
 		require.EqualValues(t, "[]", response.Body.String())
 	}

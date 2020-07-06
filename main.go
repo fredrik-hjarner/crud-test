@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	httpHandler := routes.CreateHttpHandler()
+	httpHandler := routes.CreateHTTPHandler()
 	http.ListenAndServe(":9000", httpHandler)
 }
