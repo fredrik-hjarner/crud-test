@@ -1,6 +1,8 @@
 package routes
 
-import "testing"
+import (
+	"testing"
+)
 
 func AssertResponseCode(t *testing.T, expected, actual int) {
 	if expected != actual {
