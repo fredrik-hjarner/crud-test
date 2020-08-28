@@ -2,3 +2,4 @@
 * Better uuid.
 * Add validation with govalidator.
 * Figure out how the hell to do with structs and pointers.
+* Maybe `Users` should be a map instead of an array.

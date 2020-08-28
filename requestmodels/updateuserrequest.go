@@ -2,9 +2,9 @@ package requestmodels
 
 // UpdateUserRequest ...
 type UpdateUserRequest struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
+	FirstName *string `json:"firstName"`
+	LastName  *string `json:"lastName"`
+	Email     *string `json:"email"`
 }
 
 // // ToUser ...

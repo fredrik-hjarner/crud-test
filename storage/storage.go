@@ -36,3 +36,14 @@ func GetUserByID(id string) (models.User, error) {
 func AddUser(user models.User) {
 	Users = append(Users, user)
 }
+
+// ReplaceUser ...
+func ReplaceUser(id string, newUser models.User) {
+	indexOfUser := 0 // TODO: This sucks
+	for i := 0; i < len(Users); i++ {
+		if Users[i].ID == id {
+			indexOfUser = i
+		}
+	}
+	Users[indexOfUser] = newUser
+}

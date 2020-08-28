@@ -16,4 +16,5 @@ content-type: application/json
 
 {
   "firstName": "Changed firstName",
+  "lastName": ""
 }

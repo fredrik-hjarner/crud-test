@@ -53,6 +53,19 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	// For each field replace in `user`.
 	// TODO: this is very suboptimal
+	if updateUserRequest.Email != nil {
+		user.Email = *updateUserRequest.Email
+	}
+
+	if updateUserRequest.FirstName != nil {
+		user.FirstName = *updateUserRequest.FirstName
+	}
+
+	if updateUserRequest.LastName != nil {
+		user.LastName = *updateUserRequest.LastName
+	}
+
+	storage.ReplaceUser(id, user) // TODO: omg this does not look good.
 
 	{
 		userJSON, err := json.Marshal(user)
