@@ -26,6 +26,7 @@ func CreateHTTPHandler() http.Handler {
 	router.HandleFunc("/users", GetAllUsers).Methods("GET")
 	router.HandleFunc("/users/{id}", GetUserByID).Methods("GET")
 	router.HandleFunc("/users", CreateUser).Methods("POST")
+	router.HandleFunc("/users/{id}", UpdateUser).Methods("PUT")
 
 	///////////
 	// value //
