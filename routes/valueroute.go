@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/fredrik-hjarner/ztorage/diskv"
+	"github.com/fredrik-hjarner/crud-test/diskv"
 )
 
 func GetValueByKey(w http.ResponseWriter, r *http.Request) {

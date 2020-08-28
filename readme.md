@@ -8,7 +8,7 @@
 
 ## Run
 
-`C:/code/go/bin/ztorage.exe`
+`C:/code/go/bin/crud-test.exe`
 
 ## Use
 

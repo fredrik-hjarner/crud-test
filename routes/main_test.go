@@ -4,19 +4,20 @@ import (
 	"net/http"
 	"os"
 	"testing"
-
-	"github.com/fredrik-hjarner/ztorage/diskv"
 )
 
+// HTTPHandler ...
 var HTTPHandler http.Handler
 
+// TestMain ...
 func TestMain(m *testing.M) {
-	diskv.Diskv.EraseAll()
+	// diskv.Diskv.EraseAll()
 	HTTPHandler = CreateHTTPHandler()
 	code := m.Run()
 	os.Exit(code)
 }
 
+// SetupFixture ...
 func SetupFixture() {
-	diskv.Diskv.EraseAll()
+	// diskv.Diskv.EraseAll()
 }

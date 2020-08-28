@@ -6,14 +6,16 @@ import (
 	"testing"
 )
 
-func TestNonexistingUrl(t *testing.T) {
+// TestNonexistingURL ...
+func TestNonexistingURL(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/nonexistingroute", nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
 	AssertResponseCode(t, http.StatusNotFound, response.Code)
 }
 
-func TestExistingUrl(t *testing.T) {
+// TestExistingURL ...
+func TestExistingURL(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/", nil)
 	response := httptest.NewRecorder()
 	HTTPHandler.ServeHTTP(response, request)
