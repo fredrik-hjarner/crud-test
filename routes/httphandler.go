@@ -2,19 +2,21 @@ package routes
 
 import (
 	"net/http"
+	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
 // CreateHTTPHandler ...
 func CreateHTTPHandler() http.Handler {
 	// TODO:
-	/* enableCORS := func(router http.Handler) http.Handler {
+	enableCORS := func(router http.Handler) http.Handler {
 		headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 		originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
 		methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 		return handlers.CORS(originsOk, headersOk, methodsOk)(router)
-	} */
+	}
 
 	router := mux.NewRouter()
 
@@ -23,6 +25,7 @@ func CreateHTTPHandler() http.Handler {
 	///////////
 
 	router.HandleFunc("/users", GetAllUsers).Methods("GET")
+	router.HandleFunc("/users/{id}", GetUserByID).Methods("GET")
 
 	///////////
 	// value //
@@ -55,6 +58,5 @@ func CreateHTTPHandler() http.Handler {
 
 	router.HandleFunc("/", RootGet).Methods("GET")
 
-	return router
-	// return enableCORS(router)
+	return enableCORS(router)
 }
