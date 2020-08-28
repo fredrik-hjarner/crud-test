@@ -2,8 +2,8 @@
 
 ## Compile
 
-`go get github.com/peterbourgon/diskv`
-`cd C:/code/go/src/github.com/fredrik-hjarner/ztorage/ztorage`
+`go get`
+`go get github.com/stretchr/testify`
 `go install`
 
 ## Run
@@ -18,4 +18,4 @@ to read the value of 'alpha/beta'
 
 ## Test
 
-`go test ./.. -v`
+`go test ./... -v`
