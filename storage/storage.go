@@ -31,3 +31,8 @@ func GetUserByID(id string) (models.User, error) {
 	// TODO: should not return an empty User, should return nil, but then I have to use pointers.
 	return models.User{}, errors.New("no user with that id")
 }
+
+// AddUser ...
+func AddUser(user models.User) {
+	Users = append(Users, user)
+}

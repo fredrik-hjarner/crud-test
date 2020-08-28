@@ -13,7 +13,7 @@ import (
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	usersJSON, err := json.Marshal(storage.Users)
 	if err != nil {
-		log.Fatal("Cannot encode to JSON ", err)
+		log.Println("Cannot encode to JSON ", err)
 	}
 
 	// for some damn reason [] is serialized as "null" and not "[]".

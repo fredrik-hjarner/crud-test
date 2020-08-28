@@ -1,8 +1,4 @@
-* I should make a client web app, that can
-    see, add, remove and edit values.
-    
-    Very useful for debugging.
-
-* implement DELETE.
-
-* create "data-dir" if it does not exist.
+* Set the Content-Type header.
+* Better uuid.
+* Add validation with govalidator.
+* Figure out how the hell to do with structs and pointers.

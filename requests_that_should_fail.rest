@@ -1,7 +1,0 @@
-GET http://localhost:9000/keyz
-###
-POST http://localhost:9000/keys
-###
-DELETE http://localhost:9000/keys
-###
-POST http://localhost:9000/value?key=alpha%2Ffuck

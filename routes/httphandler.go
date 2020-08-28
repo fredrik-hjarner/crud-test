@@ -10,7 +10,6 @@ import (
 
 // CreateHTTPHandler ...
 func CreateHTTPHandler() http.Handler {
-	// TODO:
 	enableCORS := func(router http.Handler) http.Handler {
 		headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
 		originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
@@ -26,6 +25,7 @@ func CreateHTTPHandler() http.Handler {
 
 	router.HandleFunc("/users", GetAllUsers).Methods("GET")
 	router.HandleFunc("/users/{id}", GetUserByID).Methods("GET")
+	router.HandleFunc("/users", CreateUser).Methods("POST")
 
 	///////////
 	// value //

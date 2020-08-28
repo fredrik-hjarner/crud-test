@@ -30,7 +30,7 @@ func GetUserByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
-		log.Fatal("Cannot encode to JSON ", err)
+		log.Println("Cannot encode to JSON ", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		if r.Body != nil {
 			/*
