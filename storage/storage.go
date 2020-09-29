@@ -18,7 +18,7 @@ var user = models.User{
 
 // Init Initializes the storage
 func Init() {
-	Users = append(Users, user)
+	// Users = append(Users, user)
 }
 
 // GetUserByID ...

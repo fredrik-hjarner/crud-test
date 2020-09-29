@@ -11,34 +11,35 @@ import (
 
 	"github.com/interactive-solutions/govalidator"
 	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
 )
 
 type BaseHandler struct {
-	logger logrus.FieldLogger
+	/* logger logrus.FieldLogger */
 }
 
-func NewBaseHandler(logger logrus.FieldLogger) *BaseHandler {
+// NewBaseHandler ...
+func NewBaseHandler( /* logger logrus.FieldLogger */ ) *BaseHandler {
 	return &BaseHandler{
-		logger: logger,
+		/* logger: logger, */
 	}
 }
 
+// ParseRequestBody ...
 func (handler *BaseHandler) ParseRequestBody(body io.Reader, obj interface{}) error {
 	bodyContent, err := ioutil.ReadAll(body)
 	if err != nil {
-		handler.logger.
-			WithError(err).
-			Error("Failed to read the request body, multiple calls to ParseRequestBody ?")
+		/* handler.logger.
+		WithError(err).
+		Error("Failed to read the request body, multiple calls to ParseRequestBody ?") */
 
 		return errors.Wrapf(err, "Failed to read body")
 	}
 
 	if err = json.Unmarshal(bodyContent, obj); err != nil {
-		handler.logger.
-			WithField("body", string(bodyContent)).
-			WithError(err).
-			Error("Failed to decode json request body")
+		/* handler.logger.
+		WithField("body", string(bodyContent)).
+		WithError(err).
+		Error("Failed to decode json request body") */
 
 		return errors.Wrapf(err, "Failed to parse body")
 	}
@@ -46,7 +47,8 @@ func (handler *BaseHandler) ParseRequestBody(body io.Reader, obj interface{}) er
 	return nil
 }
 
-func (handler *BaseHandler) NewLogEntry(ctx context.Context) logrus.FieldLogger {
+// NewLogEntry ...
+/* func (handler *BaseHandler) NewLogEntry(ctx context.Context) logrus.FieldLogger {
 	log := handler.logger
 
 	if requestId, ok := ctx.Value("requestId").(int); ok {
@@ -54,8 +56,9 @@ func (handler *BaseHandler) NewLogEntry(ctx context.Context) logrus.FieldLogger 
 	}
 
 	return log
-}
+} */
 
+// Validate ...
 func (handler *BaseHandler) Validate(ctx context.Context, w http.ResponseWriter, data interface{}) (bool, error) {
 	if valid, errorMap, err := govalidator.ValidateStruct(ctx, data); !valid {
 		if err != nil {
