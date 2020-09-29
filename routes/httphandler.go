@@ -28,36 +28,5 @@ func CreateHTTPHandler() http.Handler {
 	router.HandleFunc("/users", CreateUser).Methods("POST")
 	router.HandleFunc("/users/{id}", UpdateUser).Methods("PUT")
 
-	///////////
-	// value //
-	///////////
-
-	// valueRouter := router.Path("/value").Subrouter()
-
-	// valueRouter.
-	// 	Methods("GET").
-	// 	Queries("namespace", "{namespace:.+}", "key", "{key:.+}").
-	// 	HandlerFunc(GetValueByKey)
-
-	// valueRouter.
-	// 	Methods("POST").
-	// 	Queries("namespace", "{namespace:.+}", "key", "{key:.+}", "value", "{value:.+}").
-	// 	HandlerFunc(SetValue)
-
-	// valueRouter.
-	// 	Methods("DELETE").
-	// 	Queries("namespace", "{namespace:.+}", "key", "{key:.+}").
-	// 	HandlerFunc(DeleteOneValue)
-
-	// valueRouter.
-	// 	Methods("DELETE").
-	// 	HandlerFunc(DeleteAllValues)
-
-	//////////
-	// root //
-	//////////
-
-	router.HandleFunc("/", RootGet).Methods("GET")
-
 	return enableCORS(router)
 }

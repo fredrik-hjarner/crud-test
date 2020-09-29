@@ -11,7 +11,6 @@ var HTTPHandler http.Handler
 
 // TestMain ...
 func TestMain(m *testing.M) {
-	// diskv.Diskv.EraseAll()
 	HTTPHandler = CreateHTTPHandler()
 	code := m.Run()
 	os.Exit(code)
@@ -19,5 +18,4 @@ func TestMain(m *testing.M) {
 
 // SetupFixture ...
 func SetupFixture() {
-	// diskv.Diskv.EraseAll()
 }

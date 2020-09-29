@@ -13,11 +13,3 @@ func TestNonexistingURL(t *testing.T) {
 	HTTPHandler.ServeHTTP(response, request)
 	AssertResponseCode(t, http.StatusNotFound, response.Code)
 }
-
-// TestExistingURL ...
-func TestExistingURL(t *testing.T) {
-	request, _ := http.NewRequest("GET", "/", nil)
-	response := httptest.NewRecorder()
-	HTTPHandler.ServeHTTP(response, request)
-	AssertResponseCode(t, http.StatusOK, response.Code)
-}
