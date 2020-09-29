@@ -28,7 +28,7 @@ func CreateHTTPHandler() http.Handler {
 	router.HandleFunc("/users", userHandler.GetAll).Methods("GET")
 	router.HandleFunc("/users/{id}", GetUserByID).Methods("GET")
 	router.HandleFunc("/users", userHandler.Create).Methods("POST")
-	router.HandleFunc("/users/{id}", UpdateUser).Methods("PUT")
+	router.HandleFunc("/users/{id}", userHandler.Update).Methods("PUT")
 
 	return enableCORS(router)
 }

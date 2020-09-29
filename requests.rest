@@ -15,7 +15,7 @@ PUT http://localhost:9000/users/1
 content-type: application/json
 
 {
-  "firstName": "Changed firstName",
-  "lastName": "Changed lastname",
+  "firstName": "ChangedFirstName",
+  "lastName": "ChangedLastname",
   "email": "changed@email.com"
 }

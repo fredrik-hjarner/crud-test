@@ -2,12 +2,13 @@ package routes
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/fredrik-hjarner/crud-test/api"
 	"github.com/fredrik-hjarner/crud-test/requestmodels"
 	"github.com/fredrik-hjarner/crud-test/storage"
+	"github.com/gorilla/mux"
 )
 
 // UserHandler ...
@@ -47,10 +48,8 @@ func (handler *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 		api.WriteBadRequestResponse(w, "Failed to parse request body")
 		return
 	}
-	log.Printf("data: %v", data)
 
 	ctx := context.Background() // TODO: No idea what a context is.
-	// ctx = context.WithValue(ctx, "CurrentUser", nil)
 
 	if valid, _ := handler.Validate(ctx, w, data); !valid {
 		return
@@ -59,4 +58,35 @@ func (handler *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	user := data.ToUser()
 	storage.AddUser(user)
 	api.JsonResponse(w, http.StatusCreated, user)
+}
+
+// Update ...
+func (handler *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
+	data := &requestmodels.UpdateUserRequest{}
+
+	if err := handler.ParseRequestBody(r.Body, data); err != nil {
+		api.WriteBadRequestResponse(w, "Failed to parse request body")
+		return
+	}
+
+	ctx := context.Background() // TODO: No idea what a context is.
+
+	if valid, _ := handler.Validate(ctx, w, data); !valid {
+		return
+	}
+
+	// Check if user exists, else not found.
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	_, getUserByIDError := storage.GetUserByID(id)
+
+	if getUserByIDError != nil {
+		api.WriteNotFoundResponse(w, fmt.Sprintf("User with id '%v' does not exist", id))
+		return
+	}
+
+	newUser := data.ToUser(id)
+	storage.ReplaceUser(id, newUser)
+	api.JsonResponse(w, http.StatusCreated, newUser)
 }
