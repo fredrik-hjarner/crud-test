@@ -7,9 +7,9 @@ import (
 
 // CreateUserRequest ...
 type CreateUserRequest struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
+	FirstName string `json:"firstName" valid:"required,alpha,stringlength(1|255)"`
+	LastName  string `json:"lastName" valid:"required,alpha,stringlength(1|255)"`
+	Email     string `json:"email" valid:"required,email"`
 }
 
 // ToUser ...
