@@ -88,5 +88,20 @@ func (handler *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 	newUser := data.ToUser(id)
 	storage.ReplaceUser(id, newUser)
-	api.JsonResponse(w, http.StatusCreated, newUser)
+	api.JsonResponse(w, http.StatusOK, newUser)
+}
+
+// GetUserID ...
+func (handler *UserHandler) GetUserID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	user, err := storage.GetUserByID(id)
+
+	if err != nil {
+		api.WriteNotFoundResponse(w, fmt.Sprintf("User with id '%v' does not exist", id))
+		return
+	}
+
+	api.JsonResponse(w, http.StatusOK, user)
 }
