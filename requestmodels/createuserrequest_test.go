@@ -1,7 +1,6 @@
 package requestmodels
 
 import (
-	"log"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -33,6 +32,18 @@ func TestTooShortFirstName(t *testing.T) {
 	require.NotEqual(t, nil, err)
 }
 
+func TestNumbersInFirstName(t *testing.T) {
+	createUserRequest := CreateUserRequest{
+		FirstName: "666",
+		LastName:  "LastName",
+		Email:     "hej@hej.com",
+	}
+
+	_, err := govalidator.ValidateStruct(createUserRequest)
+
+	require.NotEqual(t, nil, err)
+}
+
 func TestIncorrectEmail(t *testing.T) {
 	createUserRequest := CreateUserRequest{
 		FirstName: "FirstName",
@@ -41,8 +52,6 @@ func TestIncorrectEmail(t *testing.T) {
 	}
 
 	_, err := govalidator.ValidateStruct(createUserRequest)
-
-	log.Printf("err: %v", err)
 
 	require.NotEqual(t, nil, err)
 }

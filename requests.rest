@@ -8,7 +8,7 @@ content-type: application/json
 {
   "firstName": "Fjalar",
   "lastName": "Allenius",
-  "email": "fj@lar"
+  "email": "fj@lar.nu"
 }
 ###
 PUT http://localhost:9000/users/1
@@ -16,5 +16,6 @@ content-type: application/json
 
 {
   "firstName": "Changed firstName",
-  "lastName": ""
+  "lastName": "Changed lastname",
+  "email": "changed@email.com"
 }

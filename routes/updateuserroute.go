@@ -37,7 +37,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	user, getUserByIDError := storage.GetUserByID(id)
+	_, getUserByIDError := storage.GetUserByID(id)
 
 	if getUserByIDError != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -51,24 +51,12 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// For each field replace in `user`.
-	// TODO: this is very suboptimal
-	if updateUserRequest.Email != nil {
-		user.Email = *updateUserRequest.Email
-	}
+	newUser := updateUserRequest.ToUser(id)
 
-	if updateUserRequest.FirstName != nil {
-		user.FirstName = *updateUserRequest.FirstName
-	}
-
-	if updateUserRequest.LastName != nil {
-		user.LastName = *updateUserRequest.LastName
-	}
-
-	storage.ReplaceUser(id, user) // TODO: omg this does not look good.
+	storage.ReplaceUser(id, newUser)
 
 	{
-		userJSON, err := json.Marshal(user)
+		userJSON, err := json.Marshal(newUser)
 		if err != nil {
 			log.Println("Marshal error.")
 			w.WriteHeader(http.StatusInternalServerError)
